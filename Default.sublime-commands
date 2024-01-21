@@ -1,0 +1,15 @@
+[
+	{ "caption": "File: New Scratch", "command": "new_scratch_file" },
+	{ "caption": "File: New with Syntax…", "command": "new_file_with_syntax" },
+	{ "caption": "File: Clone View To New Group", "command": "clone_file_to_new_group" },
+	{ "caption": "File: Save All Existing Files…", "command": "save_all_existing" },
+	{ "caption": "File: Close Without Saving", "command": "close_without_saving" },
+
+	{ "caption": "Edit: Clear Undo Stack", "command": "clear_undo_stack" },
+
+	{ "caption": "Project: Remove Folder from Project…", "command": "prompt_remove_folder" },
+
+	{ "caption": "UI: Clear Console", "command": "clear_console" },
+	{ "caption": "UI: Select Font…", "command": "select_font" },
+	// { "caption": "UI: Select View Font…", "command": "select_view_font" }
+]

@@ -1,0 +1,75 @@
+[
+	// Move By Pragraph
+	{
+		"keys": ["alt+up"],
+		"command": "move_by_paragraph",
+		"args": {"forward": false}
+	},
+	{
+		"keys": ["alt+down"],
+		"command": "move_by_paragraph",
+		"args": {"forward": true}
+	},
+	{
+		"keys": ["alt+shift+up"],
+		"command": "move_by_paragraph",
+		"args": {"forward": false, "extend": true}
+	},
+	{
+		"keys": ["alt+shift+down"],
+		"command": "move_by_paragraph",
+		"args": {"forward": true, "extend": true}
+	},
+
+	{ // Insert Line Before
+		"keys": ["ctrl+down"],
+		"command": "insert_line_before",
+		"context": [
+			{ "key": "selection_empty", "operand": true, "match_all": true }
+		]
+	},
+	{ // Delete Line Before
+		"keys": ["ctrl+up"],
+		"command": "delete_line_before",
+		"context": [
+			{ "key": "selection_empty", "operand": true, "match_all": true }
+		]
+	},
+
+	{ // New File With Syntax
+		"keys": ["alt+n"],
+		"command": "new_file_with_syntax"
+	},
+
+	{ // focus active sheet unconditionally
+		"keys": ["alt+0"],
+		"command": "focus_active_sheet" ,
+	},
+
+	{ // focus active sheet and leave console open
+		"keys": ["ctrl+`"],
+		"command": "focus_active_sheet" ,
+		"context": [
+			{ "key": "panel_type", "operand": "console" },
+			{ "key": "panel_has_focus" }
+		],
+	},
+
+	{ // focus active sheet and leave find panel open
+		"keys": ["ctrl+f"],
+		"command": "focus_active_sheet" ,
+		"context": [
+			{ "key": "panel_type", "operand": "find" },
+			{ "key": "panel_has_focus" }
+		],
+	},
+
+	{ // focus active sheet and leave replace panel open
+		"keys": ["ctrl+h"],
+		"command": "focus_active_sheet" ,
+		"context": [
+			{ "key": "panel_type", "operand": "replace" },
+			{ "key": "panel_has_focus" }
+		],
+	},
+]

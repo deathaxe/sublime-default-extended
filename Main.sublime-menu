@@ -1,0 +1,14 @@
+[
+	{
+		"id": "view",
+		"children":
+		[
+			{
+				"caption": "Show Line Numbers",
+				"command": "toggle_setting",
+				"args": {"setting": "line_numbers"},
+				"checkbox": true
+			}
+		]
+	}
+]

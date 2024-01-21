@@ -1,0 +1,13 @@
+<snippet>
+	<content><![CDATA["command": "chain",
+"args": {
+	"commands": [
+		{"command": "$0", "args": {} },
+		{"command": "" }
+	]
+},]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>chain</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.json.sublime.commands, source.json.sublime.keymap</scope>
+</snippet>

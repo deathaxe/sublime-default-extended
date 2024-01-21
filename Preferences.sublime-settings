@@ -1,0 +1,9 @@
+{
+	// A list of fonts, used by `switch_font` command
+	// to quickly changing `font_face` via quick panel.
+	"fonts": [
+		"Consolas",
+		"Courier New",
+		"Verdana"
+	],
+}
