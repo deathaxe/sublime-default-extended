@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from os.path import basename
+from pathlib import Path
 
 import sublime
 import sublime_plugin
@@ -14,15 +14,12 @@ def project_folders(project):
     return (project or {}).get("folders", [])
 
 
-def display_name(folder):
-    return folder.get("name") or basename(folder["path"])
-
-
 class DirsInputHandler(sublime_plugin.ListInputHandler):
     __slots__ = ["folders"]
 
-    def __init__(self, folders):
+    def __init__(self, project_file, folders):
         super().__init__()
+        self.project_file = Path(project_file)
         self.folders = folders
 
     def name(self):
@@ -32,15 +29,23 @@ class DirsInputHandler(sublime_plugin.ListInputHandler):
         return "Folder Name"
 
     def list_items(self):
-        return [
-            sublime.ListInputItem(
-                text=display_name(folder),
-                annotation=folder["path"],
-                value=folder["path"],
-                kind=KIND_FOLDER
+        items = []
+        for folder in self.folders:
+            folder_path = folder["path"]
+            path = Path(folder_path)
+            if not path.is_absolute():
+                path = self.project_file.parent / path
+            path = path.resolve()
+            items.append(
+                sublime.ListInputItem(
+                    text=folder.get("name") or path.name,
+                    annotation=str(path),
+                    value=folder_path,
+                    kind=KIND_FOLDER
+                )
             )
-            for folder in self.folders
-        ]
+
+        return items
 
 
 class PromptRemoveFolderCommand(sublime_plugin.WindowCommand):
@@ -63,7 +68,7 @@ class PromptRemoveFolderCommand(sublime_plugin.WindowCommand):
         if not args.get("dirs"):
             folders = project_folders(self.window.project_data())
             if folders:
-                return DirsInputHandler(folders)
+                return DirsInputHandler(self.window.project_file_name(), folders)
 
         return None
 
