@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import sublime
 import sublime_plugin
@@ -9,8 +10,11 @@ __all__ = ["PromptRemoveFolderCommand"]
 
 KIND_FOLDER = [sublime.KindId.COLOR_YELLOWISH, "📁", "Folder"]
 
+if TYPE_CHECKING:
+    from typing import Any
 
-def project_folders(project):
+
+def project_folders(project) -> list[dict[str, Any]]:
     return (project or {}).get("folders", [])
 
 
@@ -75,7 +79,7 @@ class PromptRemoveFolderCommand(sublime_plugin.WindowCommand):
     def input_description(self):
         return "Remove:"
 
-    def run(self, dirs=[]):
+    def run(self, dirs=None):
         project = self.window.project_data()
         if not project or not isinstance(project, dict):
             return
