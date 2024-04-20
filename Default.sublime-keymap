@@ -72,4 +72,15 @@
 			{ "key": "panel_has_focus" }
 		],
 	},
+
+	{ // display next output panel
+		"keys": ["ctrl+shift+."],
+		"command": "switch_panel",
+		"args": {"forward": true}
+	},
+	{ // display previous output panel
+		"keys": ["ctrl+shift+,"],
+		"command": "switch_panel",
+		"args": {"forward": false}
+	},
 ]
