@@ -1,8 +1,11 @@
 from __future__ import annotations
 
+import re
 import os
 import sublime
 import sublime_plugin
+
+from urllib.parse import unquote
 
 # creating
 
@@ -113,6 +116,29 @@ class CloneFileToNewGroupCommand(sublime_plugin.WindowCommand):
         dst_view.sel().clear()
         dst_view.sel().add_all(src_view.sel())
 
+
+class OpenFileFromUrlCommand(sublime_plugin.WindowCommand):
+    """
+    This class describes an open file from url command.
+
+    It is used to open files via protocol interface.
+
+    [HKEY_CLASSES_ROOT\subl]
+    "URL Protocol"=""
+    [HKEY_CLASSES_ROOT\subl\shell\open\command]
+    @="\"sublime_text.exe\" --command \"open_file_from_url {\\\"url\\\": \\\"%1\\\"}\""
+
+    ; pretend we are vscode
+
+    [HKEY_CLASSES_ROOT\vscode]
+    "URL Protocol"=""
+    [HKEY_CLASSES_ROOT\vscode\shell\open\command]
+    @="\"sublime_text.exe\" --command \"open_file_from_url {\\\"url\\\": \\\"%1\\\"}\""
+
+    """
+    def run(self, url):
+        url = unquote(re.sub(r"^(vscode|subl):(//)?((file|open)/)?", "", url))
+        self.window.open_file(url, sublime.ENCODED_POSITION)
 
 # saving
 
