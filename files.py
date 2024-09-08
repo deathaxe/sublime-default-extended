@@ -7,6 +7,8 @@ import sublime_plugin
 
 from urllib.parse import unquote
 
+DEBUG = False
+
 # creating
 
 
@@ -174,14 +176,53 @@ class SaveAllExistingCommand(sublime_plugin.WindowCommand):
 
 # closing
 
+def find_clone(view: sublime.View) -> sublime.View | None:
+    w = view.window()
+    if w is not None:
+        bid = view.buffer_id()
+        vid = view.id()
 
-class CloseWithoutSavingCommand(sublime_plugin.WindowCommand):
-    def run(self):
+        for v in w.views():
+            if bid == v.buffer_id() and vid != v.id():
+                return v
+
+    return None
+
+
+class CloseImmediatelyCommand(sublime_plugin.WindowCommand):
+    def run(self, save=True):
         view = self.window.active_view()
         if view:
-            view.set_scratch(True)
+            is_scratch_clone = False
+            clone = find_clone(view)
+            if clone:
+                if DEBUG:
+                    print("Close clone")
+                is_scratch_clone = clone.is_scratch()
+                view.set_scratch(True)
+
+            else:
+                fname = view.file_name()
+                if not save or not fname or not os.path.exists(fname):
+                    # close immediatly, if file no longer exists
+                    view.set_scratch(True)
+                    if DEBUG:
+                        print("Close deleted file")
+
+                elif view.is_dirty():
+                    # save file, before closing
+                    if DEBUG:
+                        print("Save and close file")
+                    view.run_command("save")
+
             view.close()
+
+            if clone:
+                # restore scratch state of clones
+                view.set_scratch(is_scratch_clone)
+
             return
+
         sheet = self.window.active_sheet()
         if sheet:
             sheet.close()

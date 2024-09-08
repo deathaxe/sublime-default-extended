@@ -1,4 +1,13 @@
 [
+	{
+		"keys": ["ctrl+f4"],
+		"command": "close_immediately",
+	},
+	{
+		"keys": ["ctrl+w"],
+		"command": "close_immediately",
+	},
+
 	// Move By Pragraph
 	{
 		"keys": ["alt+up"],
