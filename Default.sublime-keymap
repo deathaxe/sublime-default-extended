@@ -8,6 +8,16 @@
 		"command": "close_immediately",
 	},
 
+	// Move By Page (visible viewport instead of current caret location)
+	{
+		"keys": ["pageup"],
+		"command": "visual_move_page", "args": { "forward": false }
+	},
+	{
+		"keys": ["pagedown"],
+		"command": "visual_move_page", "args": { "forward": true }
+	},
+
 	// Move By Pragraph
 	{
 		"keys": ["alt+up"],
