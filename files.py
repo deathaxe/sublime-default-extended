@@ -120,7 +120,7 @@ class CloneFileToNewGroupCommand(sublime_plugin.WindowCommand):
 
 
 class OpenFileFromUrlCommand(sublime_plugin.WindowCommand):
-    """
+    R"""
     This class describes an open file from url command.
 
     It is used to open files via protocol interface.
