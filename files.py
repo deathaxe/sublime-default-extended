@@ -226,3 +226,12 @@ class CloseImmediatelyCommand(sublime_plugin.WindowCommand):
         sheet = self.window.active_sheet()
         if sheet:
             sheet.close()
+
+
+class CloseAllInGroup(sublime_plugin.WindowCommand):
+    def run(self, save=True):
+        group = self.window.active_group()
+        if not group:
+            return
+        for view in self.window.views_in_group(group):
+            self.window.run_command("close_immediately", {"save": save})
