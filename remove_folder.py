@@ -8,7 +8,7 @@ import sublime_plugin
 
 __all__ = ["PromptRemoveFolderCommand"]
 
-KIND_FOLDER = [sublime.KindId.COLOR_YELLOWISH, "📁", "Folder"]
+KIND_FOLDER = (sublime.KindId.COLOR_YELLOWISH, "📁", "Folder")
 
 if TYPE_CHECKING:
     from typing import Any

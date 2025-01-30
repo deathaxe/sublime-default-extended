@@ -19,7 +19,7 @@ class SwitchPanelInputHandler(sublime_plugin.ListInputHandler):
             "exec": "Build Output",
         }
 
-        kind = [sublime.KIND_ID_NAVIGATION, "p", "Output"]
+        kind = (sublime.KIND_ID_NAVIGATION, "p", "Output")
 
         for idx, panel in enumerate(self.owner.output_panels()):
             if panel == self.initial_panel:
