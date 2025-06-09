@@ -5,7 +5,10 @@ import os
 import sublime
 import sublime_plugin
 
+from pathlib import Path
 from urllib.parse import unquote
+
+from .select_syntax import SyntaxInputHandler
 
 DEBUG = False
 
@@ -26,38 +29,6 @@ class NewScratchFileCommand(sublime_plugin.WindowCommand):
             view.set_scratch(True)
 
 
-class SyntaxSelectorListInputHandler(sublime_plugin.ListInputHandler):
-    """
-    This class describes a syntax selector list input handler.
-
-    Lists all available syntaxes in command palette.
-    """
-
-    def __init__(self, args={}):
-        self.args = args
-
-    def name(self):
-        return "syntax"
-
-    def placeholder(self):
-        return "Select Syntax"
-
-    def preview(self, syntax):
-        return sublime.Html(f"<strong>Syntax Path:</strong> <small>{syntax}</small>")
-
-    def list_items(self):
-        return [
-            sublime.ListInputItem(
-                syntax.name,
-                syntax.path,
-                details=f'Provided by package: <b><u>{syntax.path.split("/")[1]}</u></b>',
-                annotation=syntax.scope,
-            )
-            for syntax in sublime.list_syntaxes()
-            if syntax.hidden is False
-        ]
-
-
 class NewFileWithSyntaxCommand(sublime_plugin.WindowCommand):
     """
     This class describes a `new_file_with_syntax` command.
@@ -71,10 +42,73 @@ class NewFileWithSyntaxCommand(sublime_plugin.WindowCommand):
 
     def input(self, args):
         if "syntax" not in args:
-            return SyntaxSelectorListInputHandler(args)
+            return SyntaxInputHandler(None, args)
         return None
 
     def input_description(self):
+        return "Syntax"
+
+
+class AlwaysOpenFileWithSyntaxCommand(sublime_plugin.TextCommand):
+    cur_syntax = ""
+
+    def is_enabled(self) -> bool:
+        return bool(self.view.file_name())
+
+    def run(self, _, syntax: str) -> None:
+        # verify view associated with file
+        file_name = self.view.file_name()
+        if not file_name:
+            return
+
+        file_suffix = Path(file_name).suffix[1:]
+        if not file_suffix:
+            return
+
+        # verify requested syntax exists
+        new_syntax = sublime.syntax_from_path(syntax)
+        if not new_syntax:
+            return
+
+        # remove manual file association from old syntax
+        cur_syntax = sublime.syntax_from_path(self.cur_syntax)
+        if cur_syntax and cur_syntax != new_syntax:
+            settings_file = f"{Path(cur_syntax.path).stem}.sublime-settings"
+            settings = sublime.load_settings(settings_file)
+            suffixes = settings.get("extensions")
+            if isinstance(suffixes, list):
+                try:
+                    suffixes.remove(file_suffix)
+                except ValueError:
+                    pass
+                else:
+                    settings.set("extensions", suffixes)
+                    sublime.save_settings(settings_file)
+
+        # add manual file associateion to new syntax
+        settings_file = f"{Path(new_syntax.path).stem}.sublime-settings"
+        settings = sublime.load_settings(settings_file)
+        suffixes = settings.get("extensions")
+        if isinstance(suffixes, list):
+            suffixes = set(suffixes)
+            suffixes.add(file_suffix)
+            suffixes = sorted(suffixes)
+        else:
+            suffixes = [file_suffix]
+
+        settings.set("extensions", suffixes)
+        sublime.save_settings(settings_file)
+
+        # assign syntax
+        self.view.assign_syntax(syntax)
+
+    def input(self, args) -> sublime_plugin.CommandInputHandler | None:
+        self.cur_syntax = self.view.settings().get("syntax")
+        if "syntax" not in args:
+            return SyntaxInputHandler(self.view, args)
+        return None
+
+    def input_description(self) -> str:
         return "Syntax"
 
 
