@@ -7,6 +7,10 @@
 		"keys": ["ctrl+w"],
 		"command": "close_immediately",
 	},
+	{
+		"keys": ["ctrl+shift+s"],
+		"command": "save_all_existing",
+	},
 
 	// Move By Page (visible viewport instead of current caret location)
 	{
