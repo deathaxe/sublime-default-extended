@@ -249,7 +249,8 @@ class CloseImmediatelyCommand(sublime_plugin.WindowCommand):
                         print("Save and close file")
                     view.run_command("save")
 
-            view.close()
+            # close file and optionally the window.
+            self.window.run_command("close")
 
             if clone:
                 # restore scratch state of clones
@@ -257,9 +258,8 @@ class CloseImmediatelyCommand(sublime_plugin.WindowCommand):
 
             return
 
-        sheet = self.window.active_sheet()
-        if sheet:
-            sheet.close()
+        # close sheet and optionally the window.
+        self.window.run_command("close")
 
 
 class CloseAllInGroup(sublime_plugin.WindowCommand):
