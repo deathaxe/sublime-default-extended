@@ -59,6 +59,14 @@
 		]
 	},
 
+	{ // collapse multiple selections to one, keeping the last one
+		"keys": ["shift+escape"],
+		"command": "single_last_selection",
+		"context": [
+			{ "key": "num_selections", "operator": "not_equal", "operand": 1 }
+		]
+	},
+
 	{ // New File With Syntax
 		"keys": ["alt+n"],
 		"command": "new_file_with_syntax"
