@@ -157,4 +157,46 @@
 			{ "key": "panel_has_focus", "operand": false }
 		]
 	},
+
+	// Find Results Buffer
+
+	{
+		"keys": ["pagedown"],
+		"command": "findresults_goto_file",
+		"args": {"forward": true},
+		"context": [
+			{"key": "selector", "operand": "text.find-in-files"}
+		]
+	},
+	{
+		"keys": ["pageup"],
+		"command": "findresults_goto_file",
+		"args": {"forward": false},
+		"context": [
+			{"key": "selector", "operand": "text.find-in-files"}
+		]
+	},
+	{
+		"keys": ["down"],
+		"command": "findresults_goto_match",
+		"args": {"forward": true},
+		"context": [
+			{"key": "selector", "operand": "text.find-in-files"}
+		]
+	},
+	{
+		"keys": ["up"],
+		"command": "findresults_goto_match",
+		"args": {"forward": false},
+		"context": [
+			{"key": "selector", "operand": "text.find-in-files"}
+		]
+	},
+	{
+		"keys": ["enter"],
+		"command": "findresults_open_file",
+		"context": [
+			{"key": "selector", "operand": "text.find-in-files"}
+		]
+	},
 ]
