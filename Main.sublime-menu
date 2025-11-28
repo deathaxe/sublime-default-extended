@@ -1,14 +1,11 @@
 [
 	{
 		"id": "view",
-		"children":
-		[
-			{
-				"caption": "Show Line Numbers",
-				"command": "toggle_setting",
-				"args": {"setting": "line_numbers"},
-				"checkbox": true
-			}
+		"children": [
+			{ "caption": "Show Line Numbers", "command": "toggle_setting", "args": {"setting": "line_numbers"}, "checkbox": true }
 		]
-	}
+	},
+	{ "id": "exit", "caption": "-" },
+	{ "id": "exit", "caption": "Exit", "command": "exit", "mnemonic": "x", "platform": "Windows" },
+	{ "id": "exit", "caption": "Quit", "command": "exit", "mnemonic": "Q", "platform": "Linux" },
 ]
