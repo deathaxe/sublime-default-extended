@@ -200,10 +200,38 @@ class SaveAllExistingCommand(sublime_plugin.WindowCommand):
 
     The command only saves views, which are associated with files on disk.
     Any new or scratch view, which has not yet been saved to disk, is ignored.
+
+    Examples:
+
+    Save all views in active group
+
+    ```json
+    { "command": "save_all_existing", "args": {"group": -1} }
+    ```
+
+    Save all views in group 0
+
+    ```json
+    { "command": "save_all_existing", "args": {"group": 0} }
+    ```
+
+    Save all views in all groups
+
+    ```json
+    { "command": "save_all_existing" }
+    ```
     """
 
-    def run(self):
-        for view in self.window.views():
+    def run(self, group: int | None=None) -> None:
+
+        if group is None:
+            views = self.window.views()
+        else:
+            if group == -1:
+                group = self.window.active_group()
+            views = self.window.views_in_group(group)
+
+        for view in views:
             if view.file_name():
                 view.run_command("save", {"async": True})
 

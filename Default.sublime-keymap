@@ -10,6 +10,7 @@
 	{
 		"keys": ["ctrl+shift+s"],
 		"command": "save_all_existing",
+		// "args": {"group": -1},
 	},
 
 	// Move By Page (visible viewport instead of current caret location)
