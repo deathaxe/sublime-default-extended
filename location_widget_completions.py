@@ -164,18 +164,18 @@ class FindInFilesLocationCompletionListener(sublime_plugin.EventListener):
         # collect file extensions
         window = view.window()
         if window:
-            extensions = {"*"}
+            extensions = {".*"}
             for view in window.views():
                 fname = view.file_name()
                 if fname:
-                    _, ext = fname.rsplit(".", 1)
+                    ext = Path(fname).suffix
                     if ext:
                         extensions.add(ext)
 
             for ext in extensions:
                 completions.append(
                     location_completion(
-                        trigger=f"*.{ext}",
+                        trigger="*" + ext,
                         type=LocationCompletionType.FILE,
                         kind=(sublime.KindId.TYPE, "e", "extension"),
                         details=f"include <em>{ext}</em> files.",
