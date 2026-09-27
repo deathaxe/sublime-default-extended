@@ -3,14 +3,15 @@ from __future__ import annotations
 import bisect
 import os
 import re
+
 import sublime
 import sublime_plugin
 
 __all__ = [
     "FindresultsGotoFile",
     "FindresultsGotoMatch",
-    "FindresultsOpenFileCommand",
     "FindresultsListener",
+    "FindresultsOpenFileCommand",
 ]
 
 

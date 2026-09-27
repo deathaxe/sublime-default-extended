@@ -5,6 +5,7 @@ Implements:
 https://github.com/sublimehq/sublime_text/issues/3620
 """
 from __future__ import annotations
+
 from enum import IntEnum
 from pathlib import Path
 

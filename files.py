@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-import re
 import os
-import sublime
-import sublime_plugin
-
+import re
 from pathlib import Path
 from urllib.parse import unquote
+
+import sublime
+import sublime_plugin
 
 from .select_syntax import SyntaxInputHandler
 

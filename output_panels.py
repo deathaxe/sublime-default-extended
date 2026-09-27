@@ -79,7 +79,7 @@ class SwitchPanelCommand(sublime_plugin.WindowCommand):
         try:
             idx = panels.index(self.window.active_panel())
             panel = panels[((idx + 1) if forward else (idx - 1)) % len(panels)]
-        except ValueError as e:
+        except ValueError:
             panel = panels[0]
 
         if panel:

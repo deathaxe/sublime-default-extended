@@ -10,6 +10,6 @@ class ClearConsoleCommand(sublime_plugin.WindowCommand):
         current = p.get("console_max_history_lines")
         try:
             p.set("console_max_history_lines", 1)
-            print("")
+            print()
         finally:
             p.set("console_max_history_lines", current)

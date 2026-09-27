@@ -2,7 +2,6 @@ from functools import partial, wraps
 from time import time as now
 
 import sublime
-import sublime_plugin
 
 
 def debounced(delay_in_ms, sync=False):

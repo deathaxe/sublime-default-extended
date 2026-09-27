@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 from abc import abstractmethod
+from typing import TYPE_CHECKING
+
 from sublime import Region, View
 from sublime_plugin import TextCommand
-from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from sublime import Point
@@ -26,7 +27,7 @@ class AbstractParagraphFinder:
 
     @abstractmethod
     def find(self) -> Point:
-        raise NotImplemented
+        raise NotImplementedError
 
     def _line_begins_paragraph(self, line: Region, line_above: Region) -> bool:
         a = self._substr(line)

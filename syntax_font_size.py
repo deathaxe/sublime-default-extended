@@ -4,8 +4,8 @@ import sublime
 import sublime_plugin
 
 __all__ = [
-    "IncreaseSyntaxFontSizeCommand",
-    "DecreaseSyntaxFontSizeCommand"
+    "DecreaseSyntaxFontSizeCommand",
+    "IncreaseSyntaxFontSizeCommand"
 ]
 
 
@@ -59,8 +59,7 @@ class IncreaseSyntaxFontSizeCommand(BaseFontSizeCommand):
         else:
             font_size += 1
 
-        if font_size > 128:
-            font_size = 128
+        font_size = min(font_size, 128)
 
         return font_size
 
@@ -86,7 +85,6 @@ class DecreaseSyntaxFontSizeCommand(BaseFontSizeCommand):
         else:
             font_size -= 1
 
-        if font_size < 8:
-            font_size = 8
+        font_size = max(font_size, 8)
 
         return font_size
