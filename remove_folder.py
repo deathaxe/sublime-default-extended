@@ -45,7 +45,7 @@ class DirsInputHandler(sublime_plugin.ListInputHandler):
                     text=folder.get("name") or path.name,
                     annotation=str(path),
                     value=folder_path,
-                    kind=KIND_FOLDER
+                    kind=KIND_FOLDER,
                 )
             )
 

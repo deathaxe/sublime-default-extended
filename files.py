@@ -172,9 +172,11 @@ class OpenFileFromUrlCommand(sublime_plugin.WindowCommand):
     @="\"sublime_text.exe\" --command \"open_file_from_url {\\\"url\\\": \\\"%1\\\"}\""
 
     """
+
     def run(self, url):
         url = unquote(re.sub(r"^(vscode|subl):(//)?((file|open)/)?", "", url))
         self.window.open_file(url, sublime.ENCODED_POSITION)
+
 
 # saving
 
@@ -222,7 +224,7 @@ class SaveAllExistingCommand(sublime_plugin.WindowCommand):
     ```
     """
 
-    def run(self, group: int | None=None) -> None:
+    def run(self, group: int | None = None) -> None:
 
         if group is None:
             views = self.window.views()
@@ -237,6 +239,7 @@ class SaveAllExistingCommand(sublime_plugin.WindowCommand):
 
 
 # closing
+
 
 def find_clone(view: sublime.View) -> sublime.View | None:
     w = view.window()

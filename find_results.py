@@ -26,7 +26,7 @@ class FindresultsGoto(sublime_plugin.TextCommand):
         sel = self.view.sel()
         try:
             pt = sel[0].b
-        except Exception:
+        except IndexError:
             pt = 0
 
         revision = self.view.change_count()

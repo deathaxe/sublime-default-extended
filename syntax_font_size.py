@@ -3,10 +3,7 @@ from __future__ import annotations
 import sublime
 import sublime_plugin
 
-__all__ = [
-    "DecreaseSyntaxFontSizeCommand",
-    "IncreaseSyntaxFontSizeCommand"
-]
+__all__ = ["DecreaseSyntaxFontSizeCommand", "IncreaseSyntaxFontSizeCommand"]
 
 
 class BaseFontSizeCommand(sublime_plugin.ApplicationCommand):

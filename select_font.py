@@ -5,13 +5,12 @@ import sublime_plugin
 
 __all__ = ["SelectFontCommand"]
 
-PREFS_FILE = 'Preferences.sublime-settings'
+PREFS_FILE = "Preferences.sublime-settings"
 
 CURRENT_KIND = (sublime.KIND_ID_COLOR_GREENISH, "✓", "Current")
 
 
 class FontFaceInputHandler(sublime_plugin.ListInputHandler):
-
     def __init__(self):
         super().__init__()
         self.prefs = sublime.load_settings(PREFS_FILE)
@@ -21,7 +20,7 @@ class FontFaceInputHandler(sublime_plugin.ListInputHandler):
         return "Select Font"
 
     def cancel(self):
-        self.prefs.set('font_face', self.original)
+        self.prefs.set("font_face", self.original)
         sublime.save_settings(PREFS_FILE)
 
     def confirm(self, text):
@@ -38,14 +37,14 @@ class FontFaceInputHandler(sublime_plugin.ListInputHandler):
             # the timeout was created
             if font_face != self.last_previewed:
                 return
-            if self.prefs.get('font_face') == font_face:
+            if self.prefs.get("font_face") == font_face:
                 return
-            self.prefs.set('font_face', font_face)
+            self.prefs.set("font_face", font_face)
 
         sublime.set_timeout(update, 250)
 
     def list_items(self):
-        fonts = self.prefs.get('fonts')
+        fonts = self.prefs.get("fonts")
         fonts = set(fonts) if isinstance(fonts, list) else set()
         fonts.add(self.prefs.get("font_face"))
 
@@ -63,7 +62,6 @@ class FontFaceInputHandler(sublime_plugin.ListInputHandler):
 
 
 class SelectFontCommand(sublime_plugin.WindowCommand):
-
     def input_description(self):
         return "Font:"
 
@@ -72,7 +70,7 @@ class SelectFontCommand(sublime_plugin.WindowCommand):
 
     def run(self, font_face):
         settings = sublime.load_settings(PREFS_FILE)
-        settings.set('font_face', font_face)
+        settings.set("font_face", font_face)
         sublime.save_settings(PREFS_FILE)
 
 

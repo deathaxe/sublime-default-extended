@@ -17,6 +17,7 @@ class VisualMovePageCommand(sublime_plugin.TextCommand):
     position even if it is far way from currently visible viewport, which may
     cause unexpected visual scrolling.
     """
+
     def run(self, edit, forward=True):
         sels = self.view.sel()
         visible_region = self.view.visible_region()

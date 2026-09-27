@@ -4,9 +4,7 @@ import sublime_plugin
 
 class ResetMiniDiffCommand(sublime_plugin.TextCommand):
     def run(self, edit):
-        self.view.set_reference_document(
-            self.view.substr(sublime.Region(0, self.view.size()))
-        )
+        self.view.set_reference_document(self.view.substr(sublime.Region(0, self.view.size())))
 
 
 class MiniDiffEventListener(sublime_plugin.EventListener):

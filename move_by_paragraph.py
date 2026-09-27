@@ -55,9 +55,7 @@ class ForwardParagraphFinder(AbstractParagraphFinder):
         lines = self.view.lines(r)
 
         for n, line in enumerate(lines[:-1]):
-            if self.stop_at_paragraph_begin and self._line_begins_paragraph(
-                lines[n + 1], line
-            ):
+            if self.stop_at_paragraph_begin and self._line_begins_paragraph(lines[n + 1], line):
                 return lines[n + 1].a
 
             if (
@@ -92,14 +90,10 @@ class BackwardParagraphFinder(AbstractParagraphFinder):
         lines.reverse()
 
         for n, line in enumerate(lines[:-1]):
-            if self.stop_at_paragraph_begin and self._line_begins_paragraph(
-                line, lines[n + 1]
-            ):
+            if self.stop_at_paragraph_begin and self._line_begins_paragraph(line, lines[n + 1]):
                 return line.a
 
-            if self.stop_at_paragraph_end and self._line_ends_paragraph(
-                lines[n + 1], line
-            ):
+            if self.stop_at_paragraph_end and self._line_ends_paragraph(lines[n + 1], line):
                 return lines[n + 1].b
 
         return lines[-1].a

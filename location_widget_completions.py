@@ -4,6 +4,7 @@ Auto Completion for Find in Files "Where:" field
 Implements:
 https://github.com/sublimehq/sublime_text/issues/3620
 """
+
 from __future__ import annotations
 
 from enum import IntEnum
@@ -64,7 +65,7 @@ class FindInFilesLocationCompletionListener(sublime_plugin.EventListener):
         sublime.CompletionItem(
             trigger=",",
             kind=(sublime.KIND_ID_KEYWORD, "o", "Separator"),
-            details="Separates patterns"
+            details="Separates patterns",
         ),
     ]
 
@@ -73,17 +74,17 @@ class FindInFilesLocationCompletionListener(sublime_plugin.EventListener):
         sublime.CompletionItem(
             trigger="-",
             kind=(sublime.KIND_ID_KEYWORD, "o", "Operator"),
-            details="Exclude matching patterns from search"
+            details="Exclude matching patterns from search",
         ),
         sublime.CompletionItem(
             trigger="//",
             kind=(sublime.KIND_ID_KEYWORD, "o", "Operator"),
-            details="Match relative to project folders"
+            details="Match relative to project folders",
         ),
         sublime.CompletionItem(
             trigger="*/",
             kind=(sublime.KIND_ID_KEYWORD, "o", "Operator"),
-            details="Match relative to any folder"
+            details="Match relative to any folder",
         ),
         location_completion(
             trigger="<current file>",
@@ -137,21 +138,20 @@ class FindInFilesLocationCompletionListener(sublime_plugin.EventListener):
             completions += self.file_completions(view, prefix, pt)
             completions += self.variable_completions
 
-            window = view.window()
-            if window:
-                active_view = window.active_view()
-                if active_view:
-                    fname = active_view.file_name()
-                    if fname:
-                        completions.append(
-                            location_completion(
-                                trigger="<current folder>",
-                                completion=str(Path(fname).parent),
-                                type=LocationCompletionType.VARIABLE,
-                                kind=sublime.KIND_VARIABLE,
-                                details="Search in current folder",
-                            )
-                        )
+            if (
+                (window := view.window())
+                and (active_view := window.active_view())
+                and (fname := active_view.file_name())
+            ):
+                completions.append(
+                    location_completion(
+                        trigger="<current folder>",
+                        completion=str(Path(fname).parent),
+                        type=LocationCompletionType.VARIABLE,
+                        kind=sublime.KIND_VARIABLE,
+                        details="Search in current folder",
+                    )
+                )
 
         return sublime.CompletionList(
             completions, sublime.AutoCompleteFlags.INHIBIT_WORD_COMPLETIONS
@@ -163,15 +163,11 @@ class FindInFilesLocationCompletionListener(sublime_plugin.EventListener):
         completions = []
 
         # collect file extensions
-        window = view.window()
-        if window:
+        if window := view.window():
             extensions = {".*"}
-            for view in window.views():
-                fname = view.file_name()
-                if fname:
-                    ext = Path(fname).suffix
-                    if ext:
-                        extensions.add(ext)
+            for v in window.views():
+                if (fname := v.file_name()) and (ext := Path(fname).suffix):
+                    extensions.add(ext)
 
             for ext in extensions:
                 completions.append(
@@ -247,12 +243,7 @@ class FindInFilesLocationCompletionListener(sublime_plugin.EventListener):
 
         else:
             # deduplicate folder names
-            items = {
-                item.name
-                for folder in folders
-                for item in folder.iterdir()
-                if item.is_dir()
-            }
+            items = {item.name for folder in folders for item in folder.iterdir() if item.is_dir()}
             return [
                 location_completion(
                     trigger=item,
@@ -285,9 +276,7 @@ class FindInFilesCommitLocationCompletionCommand(sublime_plugin.TextCommand):
     def commit_path(self, edit, pt, completion):
         # trim existing path
         # TODO: keep parts, valid after completion
-        reg = self.view.expand_to_scope(
-            max(0, pt - 1), "meta.path - punctuation.definition"
-        )
+        reg = self.view.expand_to_scope(max(0, pt - 1), "meta.path - punctuation.definition")
         if reg:
             self.view.erase(edit, sublime.Region(pt, reg.b))
             reg.b = pt
@@ -310,9 +299,7 @@ class FindInFilesCommitLocationCompletionCommand(sublime_plugin.TextCommand):
         # insert new path
         self.view.insert(edit, pt, completion + psep)
         # trigger auto completion
-        sublime.set_timeout(
-            lambda: self.view.run_command("auto_complete", {"mini": True}), 10
-        )
+        sublime.set_timeout(lambda: self.view.run_command("auto_complete", {"mini": True}), 10)
 
     def commit_variable(self, edit, pt, completion):
         # replace existing, possibly incomplete <variable>
