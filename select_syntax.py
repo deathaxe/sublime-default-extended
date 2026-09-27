@@ -26,7 +26,9 @@ class SyntaxInputHandler(sublime_plugin.ListInputHandler):
     Lists all available syntaxes in command palette.
     """
 
-    def __init__(self, view: sublime.View | None, args: dict = {}):
+    def __init__(self, view: sublime.View | None, args: dict | None = None):
+        if args is None:
+            args = {}
         self.args = args
         self.view = view
         if view:

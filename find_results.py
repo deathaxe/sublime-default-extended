@@ -74,7 +74,7 @@ class FindresultsOpenFileCommand(sublime_plugin.TextCommand):
             line_no = self.get_line_no(sel)
             file_name = self.get_file(sel)
             if line_no and file_name:
-                file_loc = "%s:%s" % (file_name, line_no)
+                file_loc = f"{file_name}:{line_no}"
                 view.window().open_file(file_loc, sublime.ENCODED_POSITION)
             elif file_name:
                 view.window().open_file(file_name)
@@ -93,9 +93,8 @@ class FindresultsOpenFileCommand(sublime_plugin.TextCommand):
         while line.begin() > 0:
             line_text = view.substr(line)
             match = re.match(r"(.+):$", line_text)
-            if match:
-                if os.path.exists(match.group(1)):
-                    return match.group(1)
+            if match and os.path.exists(match.group(1)):
+                return match.group(1)
             line = view.line(line.begin() - 1)
         return None
 
