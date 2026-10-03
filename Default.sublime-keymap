@@ -75,12 +75,23 @@
 
 	{ // focus active sheet unconditionally
 		"keys": ["alt+0"],
-		"command": "focus_active_sheet" ,
+		"command": "focus_active_panel",
+		"context": [
+			{ "key": "panel_has_focus", "operand": false }
+		],
+	},
+
+	{ // focus active sheet unconditionally
+		"keys": ["alt+0"],
+		"command": "focus_active_sheet",
+		"context": [
+			{ "key": "panel_has_focus", "operand": true }
+		],
 	},
 
 	{ // focus active sheet and leave console open
 		"keys": ["ctrl+`"],
-		"command": "focus_active_sheet" ,
+		"command": "focus_active_sheet",
 		"context": [
 			{ "key": "panel_type", "operand": "console" },
 			{ "key": "panel_has_focus" }
@@ -89,7 +100,7 @@
 
 	{ // focus active sheet and leave find panel open
 		"keys": ["ctrl+f"],
-		"command": "focus_active_sheet" ,
+		"command": "focus_active_sheet",
 		"context": [
 			{ "key": "panel_type", "operand": "find" },
 			{ "key": "panel_has_focus" }
@@ -98,7 +109,7 @@
 
 	{ // focus active sheet and leave replace panel open
 		"keys": ["ctrl+h"],
-		"command": "focus_active_sheet" ,
+		"command": "focus_active_sheet",
 		"context": [
 			{ "key": "panel_type", "operand": "replace" },
 			{ "key": "panel_has_focus" }

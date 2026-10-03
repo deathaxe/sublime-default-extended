@@ -9,18 +9,16 @@ class FocusActivePanelCommand(sublime_plugin.WindowCommand):
     """
 
     def run(self):
-        current = self.window.active_panel()
-        if current:
+        if current := self.window.active_panel():
             if current.startswith("output."):
                 current = current[7:]
-
-            view = self.window.find_output_panel(current)
-            if view:
-                self.window.focus_view(view)
+                if view := self.window.find_output_panel(current):
+                    self.window.focus_view(view)
+            elif current in ("console", "find", "find_in_files", "replace"):
+                self.window.run_command("show_panel", {"panel": current, "toggle": True})
 
 
 class FocusActiveSheetCommand(sublime_plugin.WindowCommand):
     def run(self):
-        active_sheet = self.window.active_sheet()
-        if active_sheet:
+        if active_sheet := self.window.active_sheet():
             self.window.focus_sheet(active_sheet)
