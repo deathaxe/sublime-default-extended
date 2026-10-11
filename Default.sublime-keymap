@@ -170,6 +170,25 @@
 		]
 	},
 
+	// Toggle Find Panel Flags
+
+	{
+		"keys": ["alt+h"],
+		"command": "toggle_highlight",
+		"context": [
+			{ "key": "panel_type", "operand": "find" },
+			{ "key": "panel_has_focus" }
+		]
+	},
+	{
+		"keys": ["alt+s"],
+		"command": "toggle_in_selection",
+		"context": [
+			{ "key": "panel_type", "operand": "find" },
+			{ "key": "panel_has_focus" }
+		]
+	},
+
 	// Find Results Buffer
 
 	{
